@@ -1,0 +1,5 @@
+ 
+
+utils.o: utils.c ../include/config.h ../include/utils.h
+
+app.o: app.f 

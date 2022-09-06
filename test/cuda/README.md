@@ -19,4 +19,4 @@ The following command runs the compiled codes.
 ```
 
 ### Result
-<img src="/media/wangxuefei/MSNP1/SHU/workspace/Cpp_test/parallel_computing/test/cuda/cuda_shared_memory.png" alt="tensor_core_acc.png">
+<img src="Cpp_test/parallel_computing/test/cuda/cuda_shared_memory.png" alt="tensor_core_acc.png">

@@ -18,5 +18,5 @@ The following command runs the compiled codes.
 
 ```
 ### Result
-<img src="/media/wangxuefei/MSNP1/SHU/workspace/Cpp_test/parallel_computing/test/cuda/tensor_core_acc.png" alt="tensor_core_acc.png">
+<img src="Cpp_test/parallel_computing/test/cuda/tensor_core_acc.png" alt="tensor_core_acc.png">
 

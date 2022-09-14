@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Aug 10 23:33:15 2022
+# Make data base, printed on Wed Sep 14 23:21:51 2022
 
 # Variables
 
@@ -16,6 +16,8 @@ make: *** No rule to make target 'all'.  Stop.
 GDK_BACKEND = x11
 # environment
 LC_ALL = C
+# environment
+NO_AT_BRIDGE = 1
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
@@ -89,13 +91,13 @@ MAKEFILE_LIST :=
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 9104
+VSCODE_PID = 30398
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/xf:@/tmp/.ICE-unix/2137,unix/xf:/tmp/.ICE-unix/2137
+SESSION_MANAGER = local/xf:@/tmp/.ICE-unix/2434,unix/xf:/tmp/.ICE-unix/2434
 # automatic
 *F = $(notdir $*)
 # environment
@@ -137,7 +139,7 @@ LC_MONETARY = zh_CN.UTF-8
 # environment
 LC_TIME = zh_CN.UTF-8
 # environment
-INVOCATION_ID = 4566a2dcdebb465c84b6e52072e45e0d
+INVOCATION_ID = 142fb39c529d42328b7f01cde981d25f
 # environment
 USERNAME = wangxuefei
 # environment
@@ -163,13 +165,15 @@ GNUMAKEFLAGS :=
 # environment
 CLUTTER_IM_MODULE = fcitx
 # environment
+CPATH = /usr/local/cuda-11.7/targets/x86_64-linux/include:
+# environment
 LOGNAME = wangxuefei
 # environment
 GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 2164
+SYSTEMD_EXEC_PID = 2509
 # environment
 DISPLAY = :1
 # environment
@@ -179,11 +183,11 @@ GTK_MODULES = gail:atk-bridge
 # default
 MAKE_VERSION := 4.3
 # environment
-MANAGERPID = 1786
+MANAGERPID = 2061
 # environment
 LC_MEASUREMENT = zh_CN.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 9104
+GIO_LAUNCHED_DESKTOP_FILE_PID = 30398
 # environment
 _ = /usr/share/code/code
 # environment
@@ -193,7 +197,7 @@ XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-JOURNAL_STREAM = 8:18392
+JOURNAL_STREAM = 8:44279
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -223,7 +227,7 @@ GDMSESSION = ubuntu
 # environment
 LC_IDENTIFICATION = zh_CN.UTF-8
 # variable set hash-table stats:
-# Load=105/1024=10%, Rehash=0, Collisions=3/132=2%
+# Load=107/1024=10%, Rehash=0, Collisions=3/134=2%
 
 # Pattern-specific Variable Values
 
@@ -231,9 +235,9 @@ LC_IDENTIFICATION = zh_CN.UTF-8
 
 # Directories
 
-# . (device 66309, inode 12305): 6 files, no impossibilities.
+# . (device 66309, inode 12305): 7 files, no impossibilities.
 
-# 6 files, no impossibilities in 1 directories.
+# 7 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -283,12 +287,13 @@ GNUmakefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 14 / storage = 131 B / avg = 9 B
-# current buf: size = 8162 B / used = 131 B / count = 14 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 15 / storage = 135 B / avg = 9 B
+# current buf: size = 8162 B / used = 135 B / count = 15 / avg = 9 B
 
-# strcache performance: lookups = 17 / hit rate = 17%
+# strcache performance: lookups = 18 / hit rate = 16%
 # hash-table stats:
-# Load=14/8192=0%, Rehash=0, Collisions=0/17=0%
-# Finished Make data base on Wed Aug 10 23:33:15 2022
+ 
+# Load=15/8192=0%, Rehash=0, Collisions=0/18=0%
+# Finished Make data base on Wed Sep 14 23:21:51 2022
 
  

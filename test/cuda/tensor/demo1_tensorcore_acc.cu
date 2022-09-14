@@ -10,6 +10,8 @@
 #define Col_A Scale
 #define Col_B Scale
 
+// 验证结果
+bool is_equal(float *mat_a, float *mat_b, int num);
 // 打印行优先矩阵
 void print_mat_row(float *mat, int row, int col);
 // 打印列优先矩阵
@@ -88,6 +90,17 @@ int main() {
 /* 数据测试
     std::cout << "gpu_C:\n";
     print_mat_col(gpu_C, n, m);
+*/
+
+/*
+    // 验证结果
+    float *gpu_C_T = new float[Row_A * Col_B];
+    for (int i = 0; i < Col_B; i++) {
+        for (int j = 0; j < Row_A; j++) {
+            gpu_C_T[i * Row_A + j] = gpu_C[j * Col_B + i];
+        }
+    }
+    std::cout << "compute result(cpu vs tensor): " << is_equal(cpu_C, gpu_C_T, Row_A * Col_B) << std::endl;
 */
 
     std::cout << "Matrix Scale: [" << Row_A << "][" << Col_A << "] * [" << Col_A << "][" << Col_B << "]\n"
@@ -215,3 +228,12 @@ void print_mat_col(float* mat, int col, int row) {
     }
 }
 
+// 验证结果
+bool is_equal(float *mat_a, float *mat_b, int num) {
+    for (int i = 0; i < num; i++) {
+        if (mat_a[i] - mat_b[i] > (1.0e-10)) {
+            return false;
+        }
+    }
+    return true;
+}

@@ -13,8 +13,8 @@
 #define Dimx_Num 32
 #define Dimy_Num 32
 
-#define BLOCK 32
-
+// 验证结果
+bool is_equal(float *mat_a, float *mat_b, int num);
 // 打印行优先矩阵
 void print_mat_row(float *mat, int row, int col);
 // 初始化矩阵
@@ -47,6 +47,7 @@ int main() {
     gettimeofday(&cpu_end, nullptr);
     double cpu_time = (cpu_end.tv_sec*1e6 + cpu_end.tv_usec) - (cpu_start.tv_sec*1e6 + cpu_start.tv_usec); //um
 
+    // print_mat_row(cpu_C, Row_A, Col_B);
 
     // gpu_mat_mul
     gettimeofday(&gpu_start, nullptr);
@@ -55,12 +56,19 @@ int main() {
     gettimeofday(&gpu_end, nullptr);
     double gpu_time = (gpu_end.tv_sec*1e6 + gpu_end.tv_usec) - (gpu_start.tv_sec*1e6 + gpu_start.tv_usec); //um
 
+    // print_mat_row(gpu_C, Row_A, Col_B);
+
     // shared memory gpu_mat_mul
     gettimeofday(&gpu_start_s, nullptr);
     float *gpu_C_s = new float[Row_A * Col_B];
-    gpu_mat_mul_shared(A, B, gpu_C, Row_A, Col_A, Col_B, Dimx_Num, Dimy_Num);
+    gpu_mat_mul_shared(A, B, gpu_C_s, Row_A, Col_A, Col_B, Dimx_Num, Dimy_Num);
     gettimeofday(&gpu_end_s, nullptr);
     double gpu_time_shared = (gpu_end_s.tv_sec*1e6 + gpu_end_s.tv_usec) - (gpu_start_s.tv_sec*1e6 + gpu_start_s.tv_usec); //um
+
+    // print_mat_row(gpu_C_s, Row_A, Col_B);
+
+    // 验证结果
+    // std::cout << "compute result(cpu vs gpu): " << is_equal(cpu_C, gpu_C, Row_A * Col_B) << "\ncompute result(gpu vs gpu_s): " << is_equal(cpu_C, gpu_C_s, Row_A * Col_B) << std::endl;
 
 
     // 输出结果
@@ -96,13 +104,13 @@ void mat_init (float *mat_a, float *mat_b, int m, int k, int n) {
     // mat_a(m,k)
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < k; j++) {
-            mat_a[i * m + j] = random() % 10;
+            mat_a[i * m + j] = float(random() % 10);
         }
     }
     // mat_b(k,n)
     for (int i = 0; i < k; i++) {
         for (int j = 0; j < n; j++) {
-            mat_b[i * k + j] = random() % 10;
+            mat_b[i * k + j] = float(random() % 10);
         }
     }
 }
@@ -160,32 +168,32 @@ void gpu_mat_mul(float *mat_a, float *mat_b, float *mat_res, int m, int k, int n
 
 // 核函数（共享内存）
 __global__ void mat_mul_cuda_kernel_shared(float *d_A, float *d_B, float *d_C, int m, int k, int n) {
-    __shared__ float shared_A[BLOCK][BLOCK];
-    __shared__ float shared_B[BLOCK][BLOCK];
+    __shared__ float shared_A[Dimy_Num][Dimx_Num];
+    __shared__ float shared_B[Dimx_Num][Dimy_Num];
     int bx = blockIdx.x;
     int by = blockIdx.y;
     int tx = threadIdx.x;
     int ty = threadIdx.y;
 
-    int row = by * BLOCK + ty;
-    int col = bx * BLOCK + tx;
+    int row = by * Dimy_Num + ty;
+    int col = bx * Dimx_Num + tx;
 
     float tmp = 0.;
-    for (int i = 0; i < (int)(ceil((float)k / BLOCK)); i++) {
-        if (i * BLOCK + tx < k && row < m) {
-            shared_A[ty][tx] = d_A[row * k + i * BLOCK + tx];
+    for (int i = 0; i < (k+Dimx_Num - 1) / Dimx_Num; i++) {
+        if (i * Dimx_Num + tx < k && row < m) {
+            shared_A[ty][tx] = d_A[row * k + i * Dimx_Num + tx];
         } else {
             shared_A[ty][tx] = 0.;
         }
 
-        if (i * BLOCK + ty < k && col <n) {
-            shared_B[ty][tx] = d_B[(i * BLOCK + ty) * n + col];
+        if (i * Dimy_Num + ty < k && col <n) {
+            shared_B[ty][tx] = d_B[(i * Dimy_Num + ty) * n + col];
         } else {
             shared_B[ty][tx] = 0.;
         }
         __syncthreads();
 
-        for (int j = 0; j < BLOCK; j++) {
+        for (int j = 0; j < Dimx_Num; j++) {
             tmp += shared_A[ty][j] * shared_B[j][tx];
         }
         __syncthreads();
@@ -219,4 +227,14 @@ void gpu_mat_mul_shared(float *mat_a, float *mat_b, float *mat_res, int m, int k
     cudaFree(d_A);
     cudaFree(d_B);
     cudaFree(d_C);
+}
+
+// 验证结果
+bool is_equal(float *mat_a, float *mat_b, int num) {
+    for (int i = 0; i < num; i++) {
+        if (fabs(mat_a[i] - mat_b[i]) > (1.0e-10)) {
+            return false;
+        }
+    }
+    return true;
 }

@@ -7,7 +7,7 @@ The examples are written for Linux, not Windows.
 ### Compilation
 The simplest way to configure is to run command:
 ```
-nvcc -o demo1 demo1_tensorcore_acc.cu 
+nvcc -o demo1 demo1_tensorcore_acc.cu -lcublas
 ```
 
 ### Run
